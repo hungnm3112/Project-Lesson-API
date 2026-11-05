@@ -18,10 +18,10 @@
 |:---:|---|---|---|
 | **Câu 1** | **Ai trực tiếp đưa dữ liệu mới vào hệ thống?**<br>*(Primary Actor)* | • **Câu 2** (Quy trình hiện tại)<br>• **Câu 4** (Ai sử dụng)<br>• **Mục 7** (`QĐ-01`..`QĐ-06`) | • **`Admin`:** Khởi tạo và cấu hình quyền cho vai trò (`roles`), tạo tài khoản nhân viên (`employees`), gán nhân viên phụ trách kho cho mọi kho; tạo mới Kho hàng (`warehouses`), Danh mục sản phẩm đa cấp (`categories`), Đơn vị tính (`units`), Sản phẩm kèm `SKU`/`Barcode` (`products`) và Đối tác (`customers`).<br>• **`Warehouse Manager`:** Gán/hủy gán nhân viên phụ trách kho đối với chính các kho (`warehouses`) mà mình đang quản lý; tạo mới và cập nhật Danh mục sản phẩm (`categories`), Đơn vị tính (`units`), Sản phẩm kèm `SKU`/`Barcode` (`products`) và Đối tác (`customers`: Khách hàng, Nhà cung cấp, Khách thợ). |
 | **Câu 2** | **Ai tiếp nhận, duyệt hoặc xử lý bước tiếp theo?**<br>*(Secondary Actor)* | • **Câu 3** (Vấn đề quy trình)<br>• **Câu 4** (Ai sử dụng)<br>• **Mục 7** (`QĐ-03`, `QĐ-05`) | • **`Warehouse Manager`:** Tiếp nhận kho hàng được `Admin` phân công quản lý, sau đó trực tiếp phân bổ (gán/hủy gán) nhân viên kho (`Warehouse Staff`) vào kho của mình và duy trì bộ danh mục hàng hóa/đối tác.<br>• **`Warehouse Staff`:** Tiếp nhận tài khoản và phạm vi kho được gán (`warehouse_ids`); đăng nhập để tra cứu danh mục sản phẩm, quét/tìm kiếm theo mã `SKU`/`Barcode`, tra cứu đơn vị tính và đối tác phục vụ tác nghiệp tại kho. |
-| **Câu 3** | **Ai xem báo cáo, giám sát và ra quyết định?**<br>*(Supervisory Actor)* | • **Câu 4** (Ai sử dụng)<br>• **Câu 5** (Kết quả mong muốn) | • **`Accountant` (Kế toán):** Đăng nhập hệ thống để tra cứu, đối soát toàn bộ danh mục kho hàng, danh mục sản phẩm, đơn vị tính, sản phẩm (giá, `SKU`, `Barcode`) và danh sách đối tác (`Khách hàng`, `Nhà cung cấp`, `Khách thợ`) phục vụ kiểm toán và lập báo cáo.<br>• **`Admin` & `Warehouse Manager`:** Giám sát danh sách nhân sự, trạng thái hoạt động của các kho và toàn bộ danh mục dữ liệu gốc. |
+| **Câu 3** | **Ai xem báo cáo, giám sát và ra quyết định?**<br>*(Supervisory Actor)* | • **Câu 4** (Ai sử dụng)<br>• **Câu 5** (Kết quả mong muốn) | • **`Accountant` (Kế toán):** Đăng nhập hệ thống để tra cứu, đối soát toàn bộ danh mục kho hàng, danh mục sản phẩm, đơn vị tính, sản phẩm (giá, `SKU`, `Barcode`) và danh sách đối tác (`Khách hàng`, `Nhà cung cấp`, `Khách thợ`) phục vụ kiểm toán và lập báo cáo.<br>• **`Admin` & `Warehouse Manager`:** Giám sát danh sách nhân sự, trạng thái hoạt động của các kho và toàn bộ dữ liệu nền tảng. |
 | **Câu 4** | **Khách hàng / Người dùng cuối tương tác trực tiếp hay gián tiếp?**<br>*(Self-service User vs Data Entity)* | • **Câu 1** (Ranh giới hệ thống)<br>• **Câu 2 & Câu 4**<br>• **Mục 7** (`QĐ-02`) | • **Khách hàng (`type = 1`)**, **Nhà cung cấp (`type = 2`)** và **Khách thợ (`type = 3`)** **KHÔNG** có tài khoản đăng nhập và không tự thao tác trực tiếp trên hệ thống.<br>• Mọi thông tin của 3 nhóm đối tác này đều do `Admin` và `Warehouse Manager` nhập hộ vào hệ thống.<br>• ➔ **Kết luận:** Loại khỏi danh sách Actor; chuyển hóa thành **Thực thể dữ liệu (`Entity` — Collection `customers`)** ở Bước 5. |
 | **Câu 5** | **Hệ thống có trao đổi dữ liệu tự động với bên thứ 3 nào không?**<br>*(External System Actor)* | • **Câu 1** (Ranh giới hệ thống)<br>• **Câu 5** (Kết quả mong muốn) | • Trong phạm vi `Module 01` và `Module 02`, hệ thống không kết nối tự động hai chiều với bất kỳ API bên thứ 3 nào.<br>• Thiết bị đầu đọc mã vạch (`Barcode Scanner`) tại kho chỉ đóng vai trò thiết bị nhập liệu đầu cuối (HID/Keyboard) gửi chuỗi ký tự `barcode` qua request của người dùng.<br>• ➔ **Kết luận:** **Không có Actor Hệ thống ngoài**. |
-| **Câu 6** | **Có nghiệp vụ nào tự động chạy ngầm theo thời gian/hàng đợi không?**<br>*(Automated Process / Background Job)* | • **Câu 3** (Mục tiêu hệ thống)<br>• **Câu 5** (Tiêu chí nghiệm thu) | • Trong phạm vi `Module 01` (Auth, Users, RBAC) và `Module 02` (Master Data CRUD), toàn bộ các xử lý kỹ thuật gồm: mã hóa `sha512` (`password`, `refresh_token`), thu hồi `refresh_tokens` khi khóa tài khoản/đổi mật khẩu, và tự động sinh chuỗi tìm kiếm `unsign_search` đều được thực thi **đồng bộ (synchronous)** ngay trong luồng xử lý của `Service` khi nhận HTTP Request.<br>• ➔ **Kết luận:** **Không có Tác vụ tự động chạy ngầm (Cron Job / Queue)** tách riêng. |
+| **Câu 6** | **Có nghiệp vụ nào tự động chạy ngầm theo thời gian/hàng đợi không?**<br>*(Automated Process / Background Job)* | • **Câu 3** (Mục tiêu hệ thống)<br>• **Câu 5** (Tiêu chí nghiệm thu) | • Trong phạm vi `Module 01` (Auth, Users, RBAC) và `Module 02` (Dữ liệu nền tảng), toàn bộ các xử lý kỹ thuật gồm: mã hóa `sha512` (`password`, `refresh_token`), thu hồi `refresh_tokens` khi khóa tài khoản/đổi mật khẩu, và tự động sinh chuỗi tìm kiếm `unsign_search` đều được thực thi **đồng bộ (synchronous)** ngay trong luồng xử lý của `Service` khi nhận HTTP Request.<br>• ➔ **Kết luận:** **Không có Tác vụ tự động chạy ngầm (Cron Job / Queue)** tách riêng. |
 | **Câu 7** | **Ai quản trị tài khoản, phân quyền và cấu hình nền tảng?**<br>*(System Admin)* | • **Câu 4** (Ai sử dụng)<br>• **Mục 7** (`QĐ-03`, `QĐ-06`) | • **`Admin` (Quản trị viên hệ thống):** Nắm toàn quyền quản trị tài khoản nhân viên (`employees`), quản lý vai trò & cập nhật mảng quyền RBAC (`roles.permissions`), gán kho phụ trách trên toàn hệ thống, cấu hình danh mục Kho hàng (`warehouses`) và thực hiện xóa cứng (`DELETE`) các danh mục gốc khi chưa có dữ liệu tham chiếu. |
 
 ---
@@ -67,29 +67,43 @@
 ### 4.3. Sơ đồ Phân loại Actor & Ranh giới Hệ thống (Actor Boundary & Classification Diagram)
 
 ```mermaid
+%%{init: {
+  'theme': 'dark',
+  'themeVariables': {
+    'fontSize': '14px'
+  },
+  'flowchart': {
+    'subGraphTitleMargin': { 'top': 25, 'bottom': 45 },
+    'nodeSpacing': 25,
+    'rankSpacing': 50,
+    'padding': 20
+  }
+}}%%
 flowchart LR
-    subgraph EXT["1. BÊN NGOÀI RANH GIỚI HỆ THỐNG (ACTORS CHUẨN HÓA)"]
+    subgraph K1["1. BÊN NGOÀI RANH GIỚI HỆ THỐNG — CÁC ACTOR CHUẨN HÓA"]
+        direction TB
         subgraph HUM["Actor Con người (Human Actors)"]
-            A1["ACT-01: Admin<br/>(System Admin / Primary Actor)"]
-            A2["ACT-02: Warehouse Manager<br/>(Primary / Secondary Actor)"]
-            A3["ACT-03: Warehouse Staff<br/>(Secondary Actor)"]
-            A4["ACT-04: Accountant<br/>(Supervisory Actor)"]
+            direction LR
+            A1["ACT-01: Admin<br/>(System Admin / Primary)"]
+            A2["ACT-02: Warehouse Manager<br/>(Primary / Secondary)"]
+            A3["ACT-03: Warehouse Staff<br/>(Secondary)"]
+            A4["ACT-04: Accountant<br/>(Supervisory)"]
         end
         subgraph SYS_EXT["Actor Hệ thống ngoài (External Systems)"]
-            E1["Không có (0 hệ thống ngoài)"]
+            E1["Không có đối tác kết nối API tự động<br/>(0 hệ thống ngoài)"]
         end
     end
 
-    subgraph INT["2. BÊN TRONG RANH GIỚI HỆ THỐNG (AUTOMATED JOBS)"]
-        C1["Cron Job / Background Queue<br/>(0 tác vụ chạy ngầm độc lập)"]
+    subgraph K2["2. BÊN TRONG RANH GIỚI HỆ THỐNG — CÁC TÁC VỤ TỰ ĐỘNG"]
+        C1["Không có Cron Job / Background Queue độc lập<br/>(Mọi xử lý kỹ thuật thực thi đồng bộ trong API)"]
     end
 
-    subgraph EXCL["3. ĐỐI TƯỢNG BỊ LOẠI TRỪ KHỎI ACTOR (DATA ENTITIES)"]
-        D1["Đối tác (Collection: customers)<br/>• type = 1: Khách hàng<br/>• type = 2: Nhà cung cấp<br/>• type = 3: Khách thợ"]
+    subgraph K3["3. ĐỐI TƯỢNG BỊ LOẠI TRỪ KHỎI ACTOR — THỰC THỂ DỮ LIỆU"]
+        D1["Đối tác doanh nghiệp (Lưu trữ trong bảng customers)<br/>• 1: Khách hàng &nbsp;|&nbsp; • 2: Nhà cung cấp &nbsp;|&nbsp; • 3: Khách thợ"]
     end
 
-    HUM & SYS_EXT -->|"Đầu vào Bước 3"| B3(("Bước 3:<br/>Sơ đồ DFD Level 0"))
-    INT -.->|"Đầu vào Bước 4"| B4(("Bước 4:<br/>Cây chức năng FDD"))
-    EXCL -.->|"Đầu vào Bước 5"| B5(("Bước 5:<br/>Bảng Database"))
+    K1 ===>|"Đầu vào Bước 3"| B3(("Bước 3:<br/>Sơ đồ DFD Level 0"))
+    K2 -.->|"Đầu vào Bước 4"| B4(("Bước 4:<br/>Cây chức năng FDD"))
+    K3 -.->|"Đầu vào Bước 5"| B5(("Bước 5:<br/>Bảng Database"))
 ```
 

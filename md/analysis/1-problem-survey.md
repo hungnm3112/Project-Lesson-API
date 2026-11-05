@@ -9,17 +9,17 @@
 ## 1. Câu 1: Tại sao cần xây dựng hệ thống này? (Business Value & System Boundary)
 
 ### 1.1. Mục đích kinh doanh (Business Value)
-1. **Chuẩn hóa và tập trung hóa dữ liệu gốc (Single Source of Truth):** Thay thế việc quản lý rời rạc trên các file Excel tại 3 kho hàng của Công ty ABC bằng một cơ sở dữ liệu tập trung duy nhất cho toàn bộ danh mục Kho hàng, Danh mục sản phẩm, Đơn vị tính, Sản phẩm (`SKU`, `Barcode`), Nhà cung cấp và Khách hàng.
+1. **Chuẩn hóa và tập trung hóa dữ liệu nền tảng (Single Source of Truth):** Thay thế việc quản lý rời rạc trên các file Excel tại 3 kho hàng của Công ty ABC bằng một cơ sở dữ liệu tập trung duy nhất cho toàn bộ danh mục Kho hàng, Danh mục sản phẩm, Đơn vị tính, Sản phẩm (`SKU`, `Barcode`), Nhà cung cấp và Khách hàng.
 2. **Định danh, xác thực và kiểm soát chặt chẽ quyền hạn nhân sự:** Xác định rõ danh tính từng nhân viên đăng nhập vào hệ thống, phân quyền theo đúng vai trò (`Admin`, `Warehouse Manager`, `Warehouse Staff`, `Accountant`) và giới hạn phạm vi kho hàng mà mỗi nhân sự được phép phụ trách.
 3. **Tạo nền tảng kiến trúc vững chắc để kiểm soát tồn kho & giao dịch:** Khi dữ liệu người dùng, phân quyền kho và mã định danh sản phẩm (`SKU`, `Barcode`) đã được chuẩn hóa ở 2 Module nền tảng, hệ thống sẵn sàng mở rộng sang các phân hệ Nhập - Xuất - Điều chuyển - Kiểm kê nhằm chấm dứt tình trạng lệch tồn kho, xuất âm kho hoặc mất dấu lịch sử biến động.
 
 ### 1.2. Ranh giới hệ thống (System Boundary — Phạm vi hiện tại)
 - **Bên trong ranh giới hệ thống (In-Scope):**
-  - Hệ thống Backend RESTful API xây dựng bằng **NestJS + MongoDB (Mongoose)** quản lý tập trung cho **Module 01 (Người dùng & Phân quyền)** và **Module 02 (Danh mục Dữ liệu Gốc)**.
+  - Hệ thống Backend RESTful API xây dựng bằng **NestJS + MongoDB (Mongoose)** quản lý tập trung cho **Module 01 (Người dùng & Phân quyền)** và **Module 02 (Dữ liệu Nền tảng)**.
   - Cơ chế xác thực phiên làm việc (`JWT Access Token` + `Refresh Token` mã hóa `sha512`), phân quyền RBAC theo vai trò và phân công kho phụ trách (`warehouse_ids`).
   - Toàn bộ nghiệp vụ CRUD, tìm kiếm tiếng Việt không dấu (`unsign_search`), kiểm tra toàn vẹn tham chiếu (chặn xóa cứng `409 CONFLICT`, khóa mềm `status = 0`) cho: Tài khoản nhân viên, Vai trò, Kho hàng, Danh mục sản phẩm, Đơn vị tính, Sản phẩm (kèm `SKU`, `Barcode`), Nhà cung cấp, Khách hàng.
 - **Bên ngoài ranh giới hệ thống (Out-of-Scope trong giai đoạn hiện tại):**
-  - Các phân hệ giao dịch chứng từ Nhập kho, Xuất kho, Chuyển kho giữa 3 kho, Kiểm kê kho và Báo cáo Nhập - Xuất - Tồn theo kỳ (sẽ được phát triển ở các giai đoạn tiếp theo trên nền tảng Master Data của Module 01 & 02).
+  - Các phân hệ giao dịch chứng từ Nhập kho, Xuất kho, Chuyển kho giữa 3 kho, Kiểm kê kho và Báo cáo Nhập - Xuất - Tồn theo kỳ (sẽ được phát triển ở các giai đoạn tiếp theo trên nền tảng dữ liệu của Module 01 & 02).
   - Khách hàng và Nhà cung cấp không trực tiếp đăng nhập vào hệ thống mà do nhân sự nội bộ của Công ty ABC nhập và quản lý thông tin.
 
 ---
@@ -42,7 +42,7 @@ Bảng chuyển hóa trực tiếp từ các nỗi đau thực tế tại Bướ
 
 | STT | Vấn đề (Nỗi đau) hiện tại | Hệ quả thực tế | Mục tiêu hệ thống tương ứng (Module 01 & Module 02) |
 |:---:|---|---|---|
-| **1** | Không biết nhân viên nào thực hiện thao tác trên file Excel; không có cơ chế giới hạn quyền hạn giữa Quản lý, Nhân viên kho và Kế toán. | Khi xảy ra sai lệch dữ liệu hoặc thất thoát hàng hóa, không quy được trách nhiệm cá nhân; người không có thẩm quyền vẫn sửa/xóa nhầm dữ liệu gốc. | **Mục tiêu 1 (Xác thực & Định danh):** Xây dựng cơ chế Đăng nhập, Đăng xuất, Refresh Token (`JWT` + `sha512`) và quản lý tài khoản nhân viên định danh duy nhất. |
+| **1** | Không biết nhân viên nào thực hiện thao tác trên file Excel; không có cơ chế giới hạn quyền hạn giữa Quản lý, Nhân viên kho và Kế toán. | Khi xảy ra sai lệch dữ liệu hoặc thất thoát hàng hóa, không quy được trách nhiệm cá nhân; người không có thẩm quyền vẫn sửa/xóa nhầm dữ liệu. | **Mục tiêu 1 (Xác thực & Định danh):** Xây dựng cơ chế Đăng nhập, Đăng xuất, Refresh Token (`JWT` + `sha512`) và quản lý tài khoản nhân viên định danh duy nhất. |
 | **2** | Không kiểm soát được ranh giới quyền hạn theo vai trò và nhân viên nào được phép phụ trách kho nào trong 3 kho. | Nhân viên kho A có thể xem/sửa nhầm dữ liệu của kho B; Kế toán hoặc Nhân viên kho có thể tự ý thay đổi cấu hình hệ thống. | **Mục tiêu 2 (RBAC & Phân công Kho):** Thiết lập phân quyền RBAC theo 4 vai trò (`Admin`, `Warehouse Manager`, `Warehouse Staff`, `Accountant`) và chức năng gán nhân viên phụ trách kho cụ thể. |
 | **3** | Thông tin 3 kho hàng, danh mục sản phẩm và đơn vị tính bị ghi chép tự do, thiếu chuẩn hóa trên các file Excel rời rạc. | Tên kho, tên nhóm hàng và đơn vị tính không đồng nhất (cùng một loại ghi "Cái", "Chiếc", "Bộ" lộn xộn), không thể tổng hợp số liệu liên kho. | **Mục tiêu 3 (Chuẩn hóa Danh mục Nền tảng):** Cung cấp bộ API CRUD chuẩn hóa cho Kho hàng (`Warehouses`), Danh mục sản phẩm (`Categories`) và Đơn vị tính (`Units`) kèm kiểm soát trạng thái hoạt động. |
 | **4** | Danh mục sản phẩm và mã định danh `SKU`, `Barcode` bị trùng lặp, sai lệch hoặc bỏ trống giữa 3 kho. | Nhầm lẫn mặt hàng khi nhập/xuất/kiểm kê, không tra cứu nhanh được theo mã vạch, dẫn đến không kiểm soát được tồn kho thực tế và xuất vượt tồn. | **Mục tiêu 4 (Quản lý Sản phẩm & Định danh SKU/Barcode):** Xây dựng CRUD Sản phẩm liên kết chặt với Danh mục & Đơn vị tính; quản lý mã `SKU` và `Barcode` duy nhất (`unique`), hỗ trợ tra cứu chính xác. |

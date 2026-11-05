@@ -16,8 +16,8 @@ Hiện tại công ty có **3 kho hàng** tại các địa điểm khác nhau. 
 
 ## 2. Mục tiêu Cốt lõi & Phạm vi Triển khai (System Objectives & Scope)
 
-- **Quyết định từ Ban lãnh đạo:** Xây dựng một **Hệ thống Quản lý Kho tập trung** bằng **API NestJS** (kết nối cơ sở dữ liệu tập trung) để chuẩn hóa dữ liệu gốc, định danh người dùng, phân quyền chặt chẽ theo vai trò/kho phụ trách và làm nền tảng cho các nghiệp vụ nhập - xuất - điều chuyển - kiểm kê.
-- **Phạm vi thực hiện hiện tại (Phase 1 — Core Foundation):** Tập trung xây dựng trước **2 Module nền tảng cơ bản** (`Module 01` và `Module 02`) nhằm thiết lập khung xác thực, phân quyền nhân sự theo kho và chuẩn hóa toàn bộ hệ thống danh mục dữ liệu gốc (Master Data).
+- **Quyết định từ Ban lãnh đạo:** Xây dựng một **Hệ thống Quản lý Kho tập trung** bằng **API NestJS** (kết nối cơ sở dữ liệu tập trung) để chuẩn hóa dữ liệu, định danh người dùng, phân quyền chặt chẽ theo vai trò/kho phụ trách và làm nền tảng cho các nghiệp vụ nhập - xuất - điều chuyển - kiểm kê.
+- **Phạm vi thực hiện hiện tại (Phase 1 — Core Foundation):** Tập trung xây dựng trước **2 Module nền tảng cơ bản** (`Module 01` và `Module 02`) nhằm thiết lập khung xác thực, phân quyền nhân sự theo kho và chuẩn hóa toàn bộ hệ thống Dữ liệu nền tảng.
 
 ---
 
@@ -34,14 +34,14 @@ Hiện tại công ty có **3 kho hàng** tại các địa điểm khác nhau. 
 #### b) Các vai trò trong hệ thống (System Roles)
 | STT | Tên vai trò (Role) | Mô tả quyền hạn & Trách nhiệm cốt lõi |
 |:---:|---|---|
-| 1 | **Admin** | Toàn quyền quản trị hệ thống (quản lý nhân viên, phân quyền, danh mục nền tảng, cấu hình kho). |
+| 1 | **Admin** | Toàn quyền quản trị hệ thống (quản lý nhân viên, phân quyền, dữ liệu nền tảng, cấu hình kho). |
 | 2 | **Warehouse Manager** | Quản lý kho (quản lý hoạt động và dữ liệu trong phạm vi kho được phân công). |
 | 3 | **Warehouse Staff** | Nhân viên kho (thao tác nghiệp vụ hàng ngày tại kho được gán phụ trách). |
 | 4 | **Accountant** | Kế toán (tra cứu dữ liệu danh mục, đối tác và xem báo cáo tổng hợp). |
 
 ---
 
-### 3.2. Module 02 — Quản lý Danh mục Dữ liệu Gốc (Master Data Management)
+### 3.2. Module 02 — Quản lý Dữ liệu Nền tảng (Platform Data Management)
 
 #### Chức năng yêu cầu
 1. **CRUD Kho hàng (`Warehouses`):** Quản lý thông tin các kho hàng của công ty (hiện có 3 kho tại các địa điểm khác nhau).
@@ -64,7 +64,7 @@ flowchart LR
         A3 --> A4["Đăng nhập / Cấp JWT<br/>& Refresh Token"]
     end
 
-    subgraph M2["Module 02: Danh mục Dữ liệu Gốc (Master Data)"]
+    subgraph M2["Module 02: Dữ liệu Nền tảng (Platform Data)"]
         B1["Thiết lập Kho hàng,<br/>Danh mục SP & Đơn vị tính"] --> B2["Khai báo Sản phẩm<br/>kèm mã SKU & Barcode"]
         B1 --> B3["Khai báo Đối tác:<br/>Nhà cung cấp & Khách hàng"]
     end

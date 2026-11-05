@@ -25,9 +25,47 @@ Sử dụng trực tiếp câu trả lời của Bước 1 để quét qua 7 câ
 4. **Tác vụ tự động (Cron Job / Queue) KHÔNG phải là Actor:** Tiến trình tự chạy nằm **bên trong** ranh giới hệ thống nên không vẽ thành Actor trên DFD Level 0, nhưng phải lập bảng riêng ở cuối Bước 2 để bắt buộc đưa vào Sơ đồ phân rã chức năng (FDD) ở Bước 4.
 
 ### 4. Quy tắc Vẽ Sơ đồ Phân loại Actor & Ranh giới Hệ thống (Mermaid `flowchart LR`)
-Cuối tài liệu Bước 2 bắt buộc vẽ **Sơ đồ Phân loại Actor & Ranh giới Hệ thống** gồm 3 khối (`subgraph`) nối tới đích truy vết của các bước tiếp theo:
-1. **`1. BÊN NGOÀI RANH GIỚI HỆ THỐNG (ACTORS CHUẨN HÓA)`:** Chia thành 2 nhóm con `Actor Con người (Human Actors)` (ghi rõ mã `ACT-xx`, tên Actor, phân loại `System Admin` / `Primary` / `Secondary` / `Supervisory`) và `Actor Hệ thống ngoài (External Systems)` ➔ Nối mũi tên **`Đầu vào Bước 3 (Sơ đồ DFD Level 0)`**.
-2. **`2. BÊN TRONG RANH GIỚI HỆ THỐNG (AUTOMATED JOBS)`:** Liệt kê các `Cron Job / Background Queue` (từ Câu 6) ➔ Nối mũi tên nét đứt **`Đầu vào Bước 4 (Cây chức năng FDD)`**.
-3. **`3. ĐỐI TƯỢNG BỊ LOẠI TRỪ KHỎI ACTOR (DATA ENTITIES)`:** Liệt kê các đối tượng thụ động không trực tiếp đăng nhập (từ Câu 4) ➔ Nối mũi tên nét đứt **`Đầu vào Bước 5 (Bảng Database)`**.
+Cuối tài liệu Bước 2 bắt buộc vẽ **Sơ đồ Phân loại Actor & Ranh giới Hệ thống** gồm 3 khối (`subgraph`) nối tới đích truy vết của các bước tiếp theo.
+- **Quy tắc định dạng chống tràn & đè chữ:** Sử dụng block `init` để cấu hình `fontSize: '14px'`, `subGraphTitleMargin: { 'top': 25, 'bottom': 45 }`, và `direction LR` cho hàng Actor con người:
+```mermaid
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'fontSize': '14px'
+  },
+  'flowchart': {
+    'subGraphTitleMargin': { 'top': 25, 'bottom': 45 },
+    'nodeSpacing': 25,
+    'rankSpacing': 50,
+    'padding': 20
+  }
+}}%%
+flowchart LR
+    subgraph K1["1. BÊN NGOÀI RANH GIỚI HỆ THỐNG — CÁC ACTOR CHUẨN HÓA"]
+        direction TB
+        subgraph HUM["Actor Con người (Human Actors)"]
+            direction LR
+            ...
+        end
+        subgraph SYS_EXT["Actor Hệ thống ngoài (External Systems)"]
+            ...
+        end
+    end
+
+    subgraph K2["2. BÊN TRONG RANH GIỚI HỆ THỐNG — CÁC TÁC VỤ TỰ ĐỘNG"]
+        ...
+    end
+
+    subgraph K3["3. ĐỐI TƯỢNG BỊ LOẠI TRỪ KHỎI ACTOR — THỰC THỂ DỮ LIỆU"]
+        ...
+    end
+
+    K1 ===>|"Đầu vào Bước 3"| B3(("Bước 3:<br/>Sơ đồ DFD Level 0"))
+    K2 -.->|"Đầu vào Bước 4"| B4(("Bước 4:<br/>Cây chức năng FDD"))
+    K3 -.->|"Đầu vào Bước 5"| B5(("Bước 5:<br/>Bảng Database"))
+```
+1. **`1. BÊN NGOÀI RANH GIỚI HỆ THỐNG — CÁC ACTOR CHUẨN HÓA`:** Chia thành 2 nhóm con `Actor Con người (Human Actors)` (ghi rõ mã `ACT-xx`, tên Actor, phân loại) và `Actor Hệ thống ngoài (External Systems)` ➔ Nối mũi tên **`Đầu vào Bước 3 (Sơ đồ DFD Level 0)`**.
+2. **`2. BÊN TRONG RANH GIỚI HỆ THỐNG — CÁC TÁC VỤ TỰ ĐỘNG CHẠY NGẦM`:** Liệt kê các `Cron Job / Background Queue` (từ Câu 6) ➔ Nối mũi tên nét đứt **`Đầu vào Bước 4 (Cây chức năng FDD)`**.
+3. **`3. ĐỐI TƯỢNG BỊ LOẠI TRỪ KHỎI ACTOR — CHUYỂN THÀNH THỰC THỂ DỮ LIỆU`:** Liệt kê các đối tượng thụ động không trực tiếp đăng nhập (từ Câu 4) ➔ Nối mũi tên nét đứt **`Đầu vào Bước 5 (Bảng Database)`**.
 
 
