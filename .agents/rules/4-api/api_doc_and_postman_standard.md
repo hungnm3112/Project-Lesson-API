@@ -1,6 +1,6 @@
 ## QUY CHUẨN BỐ CỤC TÀI LIỆU API & COLLECTION KIỂM THỬ
 
-### 1. Bố cục 4 Phần của File Tài liệu API (`md/api-module-xx.md`)
+### 1. Bố cục 4 Phần của File Tài liệu API (`md/analysis/api<>/6-api-specification.md` hoặc `md/analysis/api-module-xx.md`)
 1. **Mục 1 — Quy ước chung & Ma trận Phân quyền (RBAC):** Bảng quyền của từng Role trên từng Resource và danh mục mã quyền `<resource>.<action>` (`read`, `write`, `delete`).
 2. **Mục 2 — Bảng Danh sách Tổng hợp API:** Cột `# | Method | Endpoint | Chức năng (Mã FDD) | Quyền`.
 3. **Mục 3 — Chi tiết từng API:**

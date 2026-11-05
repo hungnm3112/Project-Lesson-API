@@ -1,4 +1,5 @@
 ## BƯỚC 3: THIẾT KẾ SƠ ĐỒ NGỮ CẢNH (DFD LEVEL 0 STANDARD)
+> **File đầu ra:** `md/analysis/3-dfd-context-diagram.md`
 
 ### 1. Nguyên tắc Hộp đen & Định danh Mã Hành động
 - **Nguyên lý Hộp đen (Black Box):** Toàn bộ hệ thống được biểu diễn bằng 1 khối trung tâm duy nhất `[0] Tên Hệ Thống`. Tuyệt đối không vẽ các bảng Database hay phân hệ con bên trong sơ đồ DFD Level 0.

@@ -1,4 +1,5 @@
 ## BƯỚC 1: KHẢO SÁT & HIỂU BÀI TOÁN (5 CÂU HỎI KHẢO SÁT NGHIỆP VỤ)
+> **File đầu ra:** `md/analysis/1-problem-survey.md`
 
 ### 1. Mô hình Chuyển hóa Yêu cầu Hệ thống
 Trước khi nghĩ đến Actor, Database hay API, mọi bài toán phải được bóc tách qua 4 lớp:

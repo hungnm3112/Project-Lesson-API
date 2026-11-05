@@ -1,4 +1,5 @@
 ## BƯỚC 4: SƠ ĐỒ PHÂN RÃ CHỨC NĂNG (FDD 3 CẤP) & MA TRẬN RBAC
+> **File đầu ra:** `md/analysis/4-fdd-and-rbac.md`
 
 ### 1. Nguyên tắc MECE & Cú pháp Đặt tên
 - **Chuyển góc nhìn từ "Ai làm (Who)" sang "Hệ thống có gì (What)":** Tuyệt đối không lấy danh sách Actor ở Bước 2 làm các nhánh Cấp 1 của FDD. Phải mở hộp đen hệ thống và chia nhánh theo **Miền nghiệp vụ / Đối tượng dữ liệu cốt lõi (Core Entity)**.

@@ -1,7 +1,7 @@
 ## QUY TRÌNH & ĐỊNH DẠNG BẢNG ĐẶC TẢ DATABASE (4 CỘT CHUẨN)
 
 ### 1. Quy trình Thiết kế Database Bắt buộc
-1. Viết bảng đặc tả cho từng Collection trong file Markdown (thư mục `md/analysis/db`) trước khi viết code.
+1. Viết bảng đặc tả cho từng Collection trong file Markdown đặt tại `md/analysis/5-database-design.md` (hoặc tách theo module trong `md/analysis/db/*.md`, tên file tiếng Anh `kebab-case`) trước khi viết code.
 2. Chờ người dùng review và xác nhận bảng đặc tả.
 3. Sau khi xác nhận mới chuyển thành Mongoose Schema và DTO.
 

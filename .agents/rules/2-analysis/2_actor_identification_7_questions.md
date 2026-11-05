@@ -1,4 +1,5 @@
 ## BƯỚC 2: TRUY VẾT & BÓC TÁCH TÁC NHÂN (7 CÂU HỎI TRUY VẾT ACTOR)
+> **File đầu ra:** `md/analysis/2-actor-identification.md`
 
 ### 1. Định nghĩa Chuẩn về Actor (Tác nhân)
 - **Actor** là bất kỳ thực thể nào **nằm ngoài ranh giới hệ thống (System Boundary)** có tương tác trực tiếp (gửi dữ liệu Input hoặc nhận kết quả Output) với hệ thống qua UI hoặc API.
@@ -22,4 +23,11 @@ Sử dụng trực tiếp câu trả lời của Bước 1 để quét qua 7 câ
 2. **Phân biệt Actor vs Data Entity:** Đối tượng không tự thao tác trực tiếp trên hệ thống mà do người khác nhập thông tin vào lưu trữ chỉ là **Thực thể dữ liệu (`Entity`)**, không phải Actor.
 3. **Loại bỏ Hệ thống ngoài giả định:** Nếu việc giao dịch thực hiện thủ công bên ngoài rồi con người tự nhập kết quả vào phần mềm thì không có Actor Hệ thống ngoài.
 4. **Tác vụ tự động (Cron Job / Queue) KHÔNG phải là Actor:** Tiến trình tự chạy nằm **bên trong** ranh giới hệ thống nên không vẽ thành Actor trên DFD Level 0, nhưng phải lập bảng riêng ở cuối Bước 2 để bắt buộc đưa vào Sơ đồ phân rã chức năng (FDD) ở Bước 4.
+
+### 4. Quy tắc Vẽ Sơ đồ Phân loại Actor & Ranh giới Hệ thống (Mermaid `flowchart LR`)
+Cuối tài liệu Bước 2 bắt buộc vẽ **Sơ đồ Phân loại Actor & Ranh giới Hệ thống** gồm 3 khối (`subgraph`) nối tới đích truy vết của các bước tiếp theo:
+1. **`1. BÊN NGOÀI RANH GIỚI HỆ THỐNG (ACTORS CHUẨN HÓA)`:** Chia thành 2 nhóm con `Actor Con người (Human Actors)` (ghi rõ mã `ACT-xx`, tên Actor, phân loại `System Admin` / `Primary` / `Secondary` / `Supervisory`) và `Actor Hệ thống ngoài (External Systems)` ➔ Nối mũi tên **`Đầu vào Bước 3 (Sơ đồ DFD Level 0)`**.
+2. **`2. BÊN TRONG RANH GIỚI HỆ THỐNG (AUTOMATED JOBS)`:** Liệt kê các `Cron Job / Background Queue` (từ Câu 6) ➔ Nối mũi tên nét đứt **`Đầu vào Bước 4 (Cây chức năng FDD)`**.
+3. **`3. ĐỐI TƯỢNG BỊ LOẠI TRỪ KHỎI ACTOR (DATA ENTITIES)`:** Liệt kê các đối tượng thụ động không trực tiếp đăng nhập (từ Câu 4) ➔ Nối mũi tên nét đứt **`Đầu vào Bước 5 (Bảng Database)`**.
+
 

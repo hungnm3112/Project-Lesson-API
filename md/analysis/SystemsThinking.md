@@ -132,7 +132,7 @@ flowchart TD
 | **Câu 5** | **Hệ thống có trao đổi dữ liệu tự động với bên thứ 3 nào không?** | Tìm **External System Actor** (các hệ thống/API bên ngoài giao tiếp tự động hai chiều với hệ thống). | • **Bước 1 — Câu 1** (Ranh giới hệ thống)<br>• **Bước 1 — Câu 5** (Kết quả mong muốn) | Danh sách các **Actor Hệ thống ngoài** (VD: Nền tảng nguồn dữ liệu, AI LLM API, TTS API, YouTube API, Cổng thanh toán...). |
 | **Câu 6** | **Có nghiệp vụ nào tự động chạy ngầm theo thời gian/hàng đợi không?** | Tìm **Automated Process / Background Job** (Cron Job định kỳ hoặc Queue Worker xử lý bất đồng bộ). | • **Bước 1 — Câu 3** (Khâu thủ công hay quên/tốn sức)<br>• **Bước 1 — Câu 5** (Tự động hóa) | **Bảng Danh sách Tác vụ tự động chạy ngầm** *(Lưu ý: Không vẽ thành Actor trên DFD Bước 3, nhưng bắt buộc đưa vào cây FDD ở Bước 4)*. |
 | **Câu 7** | **Ai quản trị tài khoản, phân quyền và cấu hình nền tảng?** | Tìm **System Admin** (người quản lý tài khoản, vai trò RBAC, cấu hình tham số/nguồn dữ liệu). | • **Bước 1 — Câu 4** (Ai sử dụng)<br>• **Bước 1 — Quyết định kiến trúc đã chốt** | Xác định vai trò Quản trị viên hệ thống (`Admin`) và phạm vi cấu hình nền tảng. |
-| **Chốt Bước 2** | **Chuẩn hóa theo 4 Quy tắc Loại trừ** | Gộp chức danh trùng quyền; loại bỏ `Entity` thụ động; loại bỏ hệ thống ngoài thủ công; tách riêng `Cron Job`. | Toàn bộ kết quả quét từ **Câu 1 đến Câu 7** của Bước 2. | **Bảng 1:** Danh sách Actor chuẩn hóa (Con người & Hệ thống ngoài).<br>**Bảng 2:** Danh sách Tác vụ tự động chạy ngầm. |
+| **Chốt Bước 2** | **Chuẩn hóa theo 4 Quy tắc Loại trừ & Vẽ Sơ đồ Actor** | Gộp chức danh trùng quyền; loại bỏ `Entity` thụ động; loại bỏ hệ thống ngoài thủ công; tách riêng `Cron Job`. | Toàn bộ kết quả quét từ **Câu 1 đến Câu 7** của Bước 2. | • **Bảng 1:** Danh sách Actor chuẩn hóa (Con người & Hệ thống ngoài).<br>• **Bảng 2:** Danh sách Tác vụ tự động chạy ngầm.<br>• **Sơ đồ Phân loại Actor & Ranh giới Hệ thống** (`flowchart LR` chia 3 khối chỉ rõ đích truy vết sang Bước 3, Bước 4, Bước 5). |
 
 ---
 
@@ -209,11 +209,11 @@ flowchart TD
 
 ## 8. Tóm tắt Quy trình Tài liệu Thực hành Chuẩn cho Mọi Dự án Mới
 
-Khi bắt đầu bất kỳ dự án mới nào, chỉ cần đi tuần tự từng bước trong thư mục `md/` (tuân thủ Phase Gate tại `1-core/workflow_phases.md` — hoàn thành và xác nhận từng bước trước khi qua bước kế tiếp):
+Khi bắt đầu bất kỳ dự án mới nào, chỉ cần đi tuần tự từng bước với các file phân tích đặt trong thư mục `md/analysis/` và đặt tên bằng **tiếng Anh (`kebab-case`)** (tuân thủ Phase Gate tại `1-core/workflow_phases.md` — hoàn thành và xác nhận từng bước trước khi qua bước kế tiếp):
 1. **`md/requirement.md` (Bước 0):** Đề bài, bối cảnh, nỗi đau và các mục tiêu tổng thể.
-2. **`md/1-khao-sat-bai-toan.md` (Bước 1):** Trả lời 5 câu hỏi khảo sát bài toán, làm rõ các `[Giả định]` và chốt bảng Quyết định kiến trúc `[Đã xác nhận]`.
-3. **`md/2-truy-vet-actor.md` (Bước 2):** Từ kết quả Bước 1, quét 7 câu hỏi truy vết để chốt Bảng 1 (Actor chuẩn hóa) và Bảng 2 (Tác vụ tự động).
-4. **`md/3-so-do-ngu-canh-dfd.md` (Bước 3):** Lập bảng Actor - Hành động 7 cột (mã `[Vai trò - STT]`, Input, Output) và vẽ sơ đồ ngữ cảnh DFD Level 0.
-5. **`md/4-so-do-phan-ra-chuc-nang-fdd.md` (Bước 4):** Áp dụng công thức chuyển đổi từ Bước 1, 2, 3 sang cây FDD 3 cấp chuẩn MECE và bảng Ma trận phân quyền RBAC.
-6. **`md/5-thiet-ke-database.md` (hoặc `md/analysis/db/*.md` — Bước 5):** Ánh xạ từ FDD & DFD sang bảng đặc tả Database 4 cột chuẩn (`field | type | required | des`).
-7. **`md/6-tai-lieu-api.md` (hoặc `md/api-module-xx.md` — Bước 6):** Đặc tả chi tiết RESTful API theo đúng bố cục 4 phần chuẩn và thiết lập Collection kiểm thử.
+2. **`md/analysis/1-problem-survey.md` (Bước 1):** Trả lời 5 câu hỏi khảo sát bài toán, làm rõ các `[Giả định]` và chốt bảng Quyết định kiến trúc `[Đã xác nhận]`.
+3. **`md/analysis/2-actor-identification.md` (Bước 2):** Từ kết quả Bước 1, quét 7 câu hỏi truy vết để chốt Bảng 1 (Actor chuẩn hóa) và Bảng 2 (Tác vụ tự động).
+4. **`md/analysis/3-dfd-context-diagram.md` (Bước 3):** Lập bảng Actor - Hành động 7 cột (mã `[Vai trò - STT]`, Input, Output) và vẽ sơ đồ ngữ cảnh DFD Level 0.
+5. **`md/analysis/4-fdd-and-rbac.md` (Bước 4):** Áp dụng công thức chuyển đổi từ Bước 1, 2, 3 sang cây FDD 3 cấp chuẩn MECE và bảng Ma trận phân quyền RBAC.
+6. **`md/analysis/5-database-design.md` (hoặc `md/analysis/db/*.md` — Bước 5):** Ánh xạ từ FDD & DFD sang bảng đặc tả Database 4 cột chuẩn (`field | type | required | des`).
+7. **`md/analysis/6-api-specification.md` (hoặc `md/analysis/api-module-xx.md` — Bước 6):** Đặc tả chi tiết RESTful API theo đúng bố cục 4 phần chuẩn và thiết lập Collection kiểm thử.
