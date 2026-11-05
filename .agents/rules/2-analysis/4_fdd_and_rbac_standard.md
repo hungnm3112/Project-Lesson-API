@@ -20,59 +20,51 @@
 - Cuối tài liệu FDD bắt buộc lập bảng: `| STT | Mã FDD | Tên chức năng Cấp 2 | Nguồn Hành động / Tác vụ (Bước 2 & 3) | Bảng DB dự kiến | Quyền theo từng Role |`.
 - Áp dụng nguyên tắc **Phân tách trách nhiệm (Separation of Duties - SoD)**: Tách bạch quyền **Quản trị cấu hình/dữ liệu nguồn** và quyền **Vận hành tác nghiệp**.
 
-### 4. Quy tắc Vẽ Sơ đồ Cây Phân rã Chức năng FDD (Mermaid `flowchart TD`)
-Tài liệu Bước 4 bắt buộc có **Sơ đồ cây FDD tổng thể** phân cấp từ Cấp 0 ➔ Cấp 1 ➔ Cấp 2 bằng Mermaid:
-1. **Phạm vi hiển thị trên Sơ đồ Cây:**
-   - **Cấp 0 (Root):** 1 nút gốc duy nhất đại diện cho toàn bộ hệ thống (`[0] Tên Hệ Thống`).
-   - **Cấp 1 (Phân hệ / Module):** Các khối phân hệ nghiệp vụ lớn, tô màu phân biệt (`fill:#4338ca`).
-   - **Cấp 2 (Chức năng nghiệp vụ đơn nhiệm):** Gom trong các `subgraph` xếp dọc (`direction TB`) đặt dưới từng Phân hệ Cấp 1; mỗi ô mang mã định danh rõ ràng: `FDD-01`, `FDD-02`... và bắt đầu bằng cú pháp `Động từ + Danh từ`.
-   - **Cấp 3 (Nhịp IPO):** Vì Cấp 3 gồm hàng chục tác vụ chi tiết, không vẽ trực tiếp lên sơ đồ cây để chống quá tải/vỡ layout; thay vào đó, **Cấp 3 bắt buộc được bóc tách chi tiết thành danh sách hoặc bảng ngay sau sơ đồ cây**.
-2. **Cấu hình Template chuẩn cho Sơ đồ FDD:**
+### 4. Quy tắc Vẽ Sơ đồ Cây Phân rã Chức năng FDD 4 Tầng (`Cấp 0 ➔ Cấp 1 ➔ Cấp 2 ➔ Cấp 3` — Mermaid `flowchart LR`)
+Tài liệu Bước 4 bắt buộc có **Sơ đồ cây FDD** phân rã theo chiều ngang từ Trái sang Phải (`flowchart LR`) hiển thị đầy đủ cả 4 tầng (**Cấp 0 ➔ Cấp 1 ➔ Cấp 2 ➔ Cấp 3**):
+1. **Nguyên tắc Khống chế Chiều ngang 4 Cột (Chống thu nhỏ chữ):**
+   - **Cột 1 — Cấp 0 (Root):** 1 nút gốc duy nhất đại diện cho toàn bộ hệ thống (`[0] Tên Hệ Thống`).
+   - **Cột 2 — Cấp 1 (Phân hệ / Module):** Các khối phân hệ nghiệp vụ lớn (`Động từ + Danh từ`).
+   - **Cột 3 — Cấp 2 (Chức năng nghiệp vụ đơn nhiệm):** Các ô chức năng gắn mã `FDD-01`, `FDD-02`... (`Động từ + Danh từ`) tự động xếp dọc từ trên xuống.
+   - **Cột 4 — Cấp 3 (Tác vụ chi tiết — Nhịp IPO):** Mỗi chức năng Cấp 2 nối sang 1 khối Cấp 3 tổng hợp đủ 3 nhịp (`• Input: ...`, `• Process: ...`, `• Output: ...`), đồng thời đặc tả chi tiết trong bảng IPO ở Mục 3.
+2. **Cấu hình Template chuẩn cho Sơ đồ FDD (`flowchart LR`):**
 ```mermaid
 %%{init: {
   'theme': 'dark',
-  'themeVariables': {
-    'fontSize': '13px'
-  },
+  'themeVariables': { 'fontSize': '14px' },
   'flowchart': {
-    'nodeSpacing': 30,
-    'rankSpacing': 40,
-    'padding': 15
+    'rankSpacing': 45,
+    'nodeSpacing': 16,
+    'padding': 16
   }
 }}%%
-flowchart TD
+flowchart LR
     %% Cấp 0: Root Node
     ROOT["<b>[0] TÊN HỆ THỐNG TỔNG THỂ</b>"]
 
     %% Cấp 1: Các Phân hệ lớn
-    M1["<b>PHÂN HỆ 1: TÊN PHÂN HỆ</b>"]
-    M2["<b>PHÂN HỆ 2: TÊN PHÂN HỆ</b>"]
+    M1["<b>PHÂN HỆ 1</b><br/>Động từ + Danh từ"]
+    M2["<b>PHÂN HỆ 2</b><br/>Động từ + Danh từ"]
 
-    ROOT --> M1
-    ROOT --> M2
+    ROOT --> M1 & M2
 
-    %% Cấp 2: Các Chức năng đơn nhiệm dưới từng Phân hệ
-    subgraph M1_SUBS[" "]
-        direction TB
-        F11["FDD-01: Động từ + Danh từ"]
-        F12["FDD-02: Động từ + Danh từ"]
-    end
-    M1 --> M1_SUBS
+    %% Cấp 2 & Cấp 3 (Nhịp IPO)
+    F01["<b>FDD-01</b><br/>Động từ + Danh từ"]
+    F02["<b>FDD-02</b><br/>Động từ + Danh từ"]
+    M1 --> F01 & F02
 
-    subgraph M2_SUBS[" "]
-        direction TB
-        F21["FDD-03: Động từ + Danh từ"]
-        F22["FDD-04: Động từ + Danh từ"]
-    end
-    M2 --> M2_SUBS
+    F01 --> IPO01["• <b>Input:</b> Động từ + Danh từ<br/>• <b>Process:</b> Động từ + Danh từ<br/>• <b>Output:</b> Động từ + Danh từ"]
+    F02 --> IPO02["• <b>Input:</b> Động từ + Danh từ<br/>• <b>Process:</b> Động từ + Danh từ<br/>• <b>Output:</b> Động từ + Danh từ"]
 
-    %% Styling chuẩn
-    classDef rootNode fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#ffffff;
-    classDef moduleNode fill:#312e81,stroke:#6366f1,stroke-width:1.5px,color:#ffffff;
-    classDef funcNode fill:#27272a,stroke:#52525b,stroke-width:1px,color:#f4f4f5;
+    %% Cố định kích thước khung và độ rộng 4 cột (white-space: nowrap chống bẻ dòng)
+    classDef rootNode fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#ffffff,width:210px;
+    classDef moduleNode fill:#312e81,stroke:#6366f1,stroke-width:1.5px,color:#ffffff,width:240px;
+    classDef funcNode fill:#1f2937,stroke:#10b981,stroke-width:1.5px,color:#f4f4f5,width:220px;
+    classDef ipoNode fill:#27272a,stroke:#52525b,stroke-width:1px,color:#e4e4e7,text-align:left,white-space:nowrap;
 
     class ROOT rootNode;
     class M1,M2 moduleNode;
-    class F11,F12,F21,F22 funcNode;
+    class F01,F02 funcNode;
+    class IPO01,IPO02 ipoNode;
 ```
 
