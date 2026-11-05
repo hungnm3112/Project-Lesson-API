@@ -1,0 +1,22 @@
+# CHỈ MỤC QUY CHUẨN PHÂN TÍCH & THIẾT KẾ KIẾN TRÚC (ARCHITECTURE & DESIGN RULES INDEX)
+
+## 1. Core Rules (`1-core/`)
+@[Workflow Phases](./1-core/workflow_phases.md)
+@[Tech Stack & Monorepo](./1-core/tech_stack_and_monorepo.md)
+@[Naming Conventions](./1-core/naming_conventions.md)
+@[TypeScript Rules](./1-core/typescript_rules.md)
+@[Git Commit Rules](./1-core/git_commit_rules.md)
+
+## 2. Business & System Analysis (`2-analysis/`)
+@[Bước 1: 5 Câu hỏi Khảo sát & Hiểu bài toán](./2-analysis/1_problem_survey_5_questions.md)
+@[Bước 2: 7 Câu hỏi Truy vết & Bóc tách Actor](./2-analysis/2_actor_identification_7_questions.md)
+@[Bước 3: Thiết kế Sơ đồ Ngữ cảnh DFD Level 0](./2-analysis/3_dfd_level_0_standard.md)
+@[Bước 4: Sơ đồ Phân rã Chức năng FDD & RBAC](./2-analysis/4_fdd_and_rbac_standard.md)
+
+## 3. Database & Mongoose (`3-database/`)
+@[Bước 5.1: Ánh xạ từ FDD sang Database](./3-database/1_fdd_to_database_mapping.md)
+@[Bước 5.2: Định dạng Bảng Đặc tả 4 Cột](./3-database/2_db_spec_table_format.md)
+@[Bước 5.3: Quy ước Trường Dữ liệu](./3-database/3_db_field_conventions.md)
+@[Bước 5.4: Toàn vẹn Tham chiếu & Xóa/Khóa](./3-database/4_db_referential_integrity.md)
+@[Bước 5.5: Các Mẫu Thiết kế Dữ liệu Doanh nghiệp](./3-database/5_db_enterprise_patterns.md)
+@[Bước 5.6: Quy tắc Mongoose & Truy vấn](./3-database/6_mongoose_and_query_rules.md)
